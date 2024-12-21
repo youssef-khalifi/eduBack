@@ -11,7 +11,6 @@
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
         </processorPath>
         <module name="Student" />
-        <module name="Teacher" />
         <module name="Cour" />
       </profile>
       <profile name="Maven default annotation processors profile" enabled="true">
@@ -21,6 +20,15 @@
         <module name="Security_Microservice" />
         <module name="Discovery" />
         <module name="Gateway-Service" />
+      </profile>
+      <profile name="Annotation profile for Teacher" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath>
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
+        </processorPath>
+        <module name="Teacher" />
       </profile>
     </annotationProcessing>
   </component>

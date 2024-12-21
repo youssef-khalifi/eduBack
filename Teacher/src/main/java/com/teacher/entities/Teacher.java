@@ -1,12 +1,14 @@
 package com.teacher.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.teacher.models.Course;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -20,7 +22,9 @@ public class Teacher {
     private String fullName;
     private int age;
     private String gender;
-    @JsonIgnore
+    private String jobTitle;
+    private String university;
+    private Date createdAt;
     @Lob
     @Column(length = 10000)
     private byte[] image;
@@ -28,6 +32,8 @@ public class Teacher {
     private String password;
     private String phoneNumber;
     private String role;
+    @Transient
+    List<Course> courses;
 
 
 

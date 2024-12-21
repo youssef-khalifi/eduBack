@@ -17,7 +17,6 @@ import java.util.List;
 
 @RequestMapping("/Course")
 @RestController
-@CrossOrigin
 public class CourseAPI {
 
     @Autowired
@@ -44,9 +43,9 @@ public class CourseAPI {
     }
 
     @GetMapping("/name/{name}")
-    public ResponseEntity<List<Course>> getCourseByName(@PathVariable String name) {
-        List<Course> courses = courseService.getCoursesByName(name);
-        return ResponseEntity.ok(courses);
+    public ResponseEntity<Course> getCourseByName(@PathVariable String name) {
+        Course course = courseService.getCoursesByName(name);
+        return ResponseEntity.ok(course);
     }
 
     @GetMapping("/teacher/{id}")

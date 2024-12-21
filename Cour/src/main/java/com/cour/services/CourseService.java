@@ -1,6 +1,8 @@
 package com.cour.services;
 
+import com.cour.clients.TeacherClient;
 import com.cour.entities.Course;
+import com.cour.model.Teacher;
 import com.cour.repositories.CourseRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +16,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class CourseService {
 
-    @Autowired
-    private  CourseRepo courseRepo;
+
+    private final CourseRepo courseRepo;
+    private final TeacherClient teacherClient;
 
 
     public Course saveCourse(Course course, MultipartFile image , String createdAt) throws IOException {
@@ -28,6 +32,7 @@ public class CourseService {
         } catch (Exception e) {
             throw new IOException("Invalid date format. Please use the format yyyy-MM-dd.", e);
         }
+
         course.setImage(image.getBytes());
         return courseRepo.save(course);
     }
@@ -67,8 +72,13 @@ public class CourseService {
     }
 
 
-    public List<Course> getCoursesByName(String name) {
-        return courseRepo.findByNameContainingIgnoreCase(name);
+    public Course getCoursesByName(String name) {
+        Course course = courseRepo.findByNameContainingIgnoreCase(name);
+        Teacher teacher = teacherClient.getTeacherById(course.getEnseignantId()).getBody();
+
+        course.setTeacher(teacher);
+
+        return course;
     }
 
     public List<Course> getByEnseignantId(Long enseignantId) {
@@ -76,6 +86,11 @@ public class CourseService {
     }
 
     public List<Course> getAllCourses() {
-        return courseRepo.findAll();
+        List<Course> courses = courseRepo.findAll();
+
+        for (Course course : courses) {
+            course.setTeacher(teacherClient.getTeacherById(course.getEnseignantId()).getBody());
+        }
+        return courses;
     }
 }

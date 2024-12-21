@@ -16,7 +16,6 @@ import java.util.Map;
 @RestController
 @RequestMapping("/Teachers")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:4200")
 public class API {
 
     private final TeacherService teacherService;
@@ -25,7 +24,8 @@ public class API {
     @PostMapping
     public ResponseEntity<Teacher> saveTeacher
             (@RequestPart MultipartFile image , @RequestParam String fullName, @RequestParam String email,@RequestParam int age,
-             @RequestParam String phone, @RequestParam String password, @RequestParam String gender) throws IOException {
+             @RequestParam String phone, @RequestParam String password, @RequestParam String gender,
+             @RequestParam String university , @RequestParam String jobTitle) throws IOException {
 
         Teacher teacher = Teacher.builder()
                 .fullName(fullName)
@@ -34,6 +34,8 @@ public class API {
                 .gender(gender)
                 .password(password)
                 .phoneNumber(phone)
+                .university(university)
+                .jobTitle(jobTitle)
                 .build();
         Teacher savedTeacher = teacherService.saveTeacher(teacher , image);
 
@@ -69,5 +71,10 @@ public class API {
             return ResponseEntity.ok(infos_user);
         }
         return ResponseEntity.notFound().build();
+    }
+
+    @GetMapping("/profile/{email}")
+    public ResponseEntity<Teacher> getTeacherByEmail(@PathVariable String email){
+        return ResponseEntity.ok(teacherService.getTeacherByEmail(email));
     }
 }

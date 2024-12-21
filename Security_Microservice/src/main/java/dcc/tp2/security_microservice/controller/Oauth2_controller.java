@@ -69,12 +69,13 @@ public class Oauth2_controller {
                 .issuer("MS_sec")
                 .subject(authenticate.getName())
                 .issuedAt(instant)
-                .expiresAt(instant.plus(15, ChronoUnit.MINUTES))
+                .expiresAt(instant.plus(200, ChronoUnit.MINUTES))
                 .claim("name",authenticate.getName())
                 .build();
         String RefreshToken = jwtEncoder.encode(JwtEncoderParameters.from(jwtClaimsSet_refresh_token)).getTokenValue();
 
         Map<String, String> ID_Token = new HashMap<>();
+
 
         ID_Token.put("Access_Token",Access_Token);
         ID_Token.put("Refresh_Token",RefreshToken);

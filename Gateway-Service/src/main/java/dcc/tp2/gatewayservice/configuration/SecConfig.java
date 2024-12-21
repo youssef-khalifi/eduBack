@@ -2,23 +2,21 @@ package dcc.tp2.gatewayservice.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
-import org.springframework.security.oauth2.jwt.JwtDecoder;
-import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusReactiveJwtDecoder;
 import org.springframework.security.oauth2.jwt.ReactiveJwtDecoder;
-import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.server.SecurityWebFilterChain;
+
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.reactive.CorsConfigurationSource;
+import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
+
+import java.util.Arrays;
+
 
 @Configuration
 @EnableWebFluxSecurity
-
 public class SecConfig {
 
     private RsaConfig rsaConfig;
@@ -32,13 +30,15 @@ public class SecConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeExchange(auth -> auth
+                        .pathMatchers("/COURSE-SERVICE/Course/**").hasAnyAuthority("SCOPE_Teacher")
                         .pathMatchers("/TEACHER-SERVICE/Teachers/email/{id}").permitAll()
                         .pathMatchers("/TEACHER-SERVICE/Teachers/**").hasAuthority("SCOPE_Teacher")
                         .pathMatchers("/CHERCHEUR-SERVICE/Chercheurs/email/{id}").permitAll()
                         .pathMatchers("/CHERCHEUR-SERVICE/Chercheurs/**").hasAuthority("SCOPE_Chercheur")
                         .anyExchange().authenticated()
                 )
-                .oauth2ResourceServer(oauth2 -> oauth2.jwt());
+                .oauth2ResourceServer(oauth2 -> oauth2.jwt())
+                .cors().configurationSource(corsConfigurationSource());
 
         return http.build();
     }
@@ -46,9 +46,20 @@ public class SecConfig {
 
     @Bean
     public ReactiveJwtDecoder jwtDecoder() {
-        // Ensure that rsaConfig.publicKey() returns a valid PublicKey
         return NimbusReactiveJwtDecoder.withPublicKey(rsaConfig.publicKey()).build();
     }
 
 
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
+        configuration.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
 }
