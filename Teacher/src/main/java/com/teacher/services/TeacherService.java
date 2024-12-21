@@ -52,4 +52,19 @@ public class TeacherService {
         return teacher;
     }
 
+    public Teacher updateTeacher
+            (Long id , String fullName , MultipartFile image,
+             String jobTitle,String university,String phoneNumber, String password) throws IOException {
+        Teacher teacher = teacherRepo.findById(id).get();
+        teacher.setFullName(fullName);
+        teacher.setJobTitle(jobTitle);
+        teacher.setUniversity(university);
+        teacher.setImage(image.getBytes());
+        teacher.setPhoneNumber(phoneNumber);
+        teacher.setPassword(password);
+        teacherRepo.save(teacher);
+        return teacher;
+
+    }
+
 }

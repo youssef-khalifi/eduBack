@@ -73,8 +73,26 @@ public class API {
         return ResponseEntity.notFound().build();
     }
 
+
     @GetMapping("/profile/{email}")
     public ResponseEntity<Teacher> getTeacherByEmail(@PathVariable String email){
         return ResponseEntity.ok(teacherService.getTeacherByEmail(email));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Teacher> updateTeacher(
+            @PathVariable Long id,
+            @RequestParam String fullName,
+            @RequestParam String jobTitle,
+            @RequestParam String university,
+            @RequestParam String phoneNumber,
+            @RequestParam String password,
+            @RequestParam("image") MultipartFile image) throws IOException {
+
+            Teacher teacher = teacherService.updateTeacher
+                    (id,fullName,image,jobTitle,university,phoneNumber,password);
+
+            return ResponseEntity.ok(teacher);
+
     }
 }
