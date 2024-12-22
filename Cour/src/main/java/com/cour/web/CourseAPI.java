@@ -22,21 +22,36 @@ public class CourseAPI {
     @Autowired
     private CourseService courseService;
 
-    @PostMapping
+    @PostMapping("/{teacherId}")
     public ResponseEntity<Course> saveCourse
-            (@RequestPart("imageFile") MultipartFile imageFile, @RequestParam String name,@RequestParam String description,
-             @RequestParam String createdAt, @RequestParam String courseLevel,@RequestParam String courType,
-             @RequestParam Long enseignantId) throws IOException {
+            (@RequestParam("imageFile") MultipartFile imageFile, @RequestParam String name,@RequestParam String description,
+             @RequestParam String courseLevel,@RequestParam String courType,
+             @PathVariable Long teacherId) throws IOException {
 
         Course course = new Course();
         course.setName(name);
         course.setDescription(description);
         course.setCourseLevel(courseLevel);
         course.setCourType(courType);
-        course.setEnseignantId(enseignantId);
+        course.setEnseignantId(teacherId);
 
 
-        Course savedCourse = courseService.saveCourse(course , imageFile , createdAt);
+        Course savedCourse = courseService.saveCourse(course , imageFile );
+
+        return ResponseEntity.ok(savedCourse);
+
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Course> updateCourse
+            (@RequestParam("imageFile") MultipartFile imageFile, @RequestParam String name,@RequestParam String description,
+             @RequestParam String courseLevel,@RequestParam String courType,@PathVariable Long id
+             ) throws IOException {
+
+
+
+
+        Course savedCourse = courseService.updateCourse(id ,name, imageFile, description, courseLevel, courType );
 
         return ResponseEntity.ok(savedCourse);
 
@@ -65,22 +80,6 @@ public class CourseAPI {
         List<Course> courses = courseService.getAllCourses();
         return ResponseEntity.ok(courses);
     }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<Course> updateCourse(
-            @PathVariable Long id,
-            @RequestPart("course") Course updatedCourse,
-            @RequestPart(value = "image", required = false) MultipartFile image) {
-        try {
-            Course updated = courseService.updateCourse(id, updatedCourse, image);
-            return ResponseEntity.ok(updated);
-        } catch (IOException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Course not found: " + e.getMessage());
-        } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error occurred: " + e.getMessage());
-        }
-    }
-
 
     @DeleteMapping("/{id}")
     public void deleteById(@PathVariable Long id) throws IOException {

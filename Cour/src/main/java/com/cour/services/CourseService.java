@@ -24,32 +24,29 @@ public class CourseService {
     private final TeacherClient teacherClient;
 
 
-    public Course saveCourse(Course course, MultipartFile image , String createdAt) throws IOException {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        try {
-            Date date = dateFormat.parse(createdAt);
-            course.setCreatedAt(date);
-        } catch (Exception e) {
-            throw new IOException("Invalid date format. Please use the format yyyy-MM-dd.", e);
-        }
+    public Course saveCourse(Course course, MultipartFile image ) throws IOException {
 
+        course.setCreatedAt(new Date());
         course.setImage(image.getBytes());
         return courseRepo.save(course);
     }
 
 
-    public Course updateCourse(Long id, Course updatedCourse, MultipartFile image) throws IOException {
+    public Course updateCourse(Long id, String name, MultipartFile image,String courseType,
+                               String courseLevel,String description) throws IOException {
+
+
         Optional<Course> existingCourseOpt = courseRepo.findById(id);
         if (existingCourseOpt.isPresent()) {
+
             Course existingCourse = existingCourseOpt.get();
-            existingCourse.setName(updatedCourse.getName());
-            existingCourse.setDescription(updatedCourse.getDescription());
-            if (updatedCourse.getCreatedAt() != null) {
-                existingCourse.setCreatedAt(updatedCourse.getCreatedAt());
-            }
-            if (image != null && !image.isEmpty()) {
-                existingCourse.setImage(image.getBytes());
-            }
+
+            existingCourse.setName(name);
+            existingCourse.setImage(image.getBytes());
+            existingCourse.setDescription(description);
+            existingCourse.setCourseLevel(courseLevel);
+            existingCourse.setCourType(courseType);
+
             return courseRepo.save(existingCourse);
         } else {
             throw new IOException("Course with ID " + id + " not found.");
@@ -82,7 +79,14 @@ public class CourseService {
     }
 
     public List<Course> getByEnseignantId(Long enseignantId) {
-        return courseRepo.findByEnseignantId(enseignantId);
+        List<Course> courses = courseRepo.findByEnseignantId(enseignantId);
+
+        for (Course course : courses) {
+
+            Teacher teacher = teacherClient.getTeacherById(course.getEnseignantId()).getBody();
+            course.setTeacher(teacher);
+        }
+        return courses;
     }
 
     public List<Course> getAllCourses() {
