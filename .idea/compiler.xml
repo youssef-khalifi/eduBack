@@ -30,6 +30,15 @@
         </processorPath>
         <module name="Teacher" />
       </profile>
+      <profile name="Annotation profile for video_testing" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath>
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
+        </processorPath>
+        <module name="video_testing" />
+      </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
@@ -40,6 +49,7 @@
       <module name="Security_Microservice" options="-parameters" />
       <module name="Student" options="-parameters" />
       <module name="Teacher" options="-parameters" />
+      <module name="video_testing" options="-parameters" />
     </option>
   </component>
 </project>
