@@ -85,6 +85,9 @@ public class CourseService {
     public List<Course> getByEnseignantId(Long enseignantId) {
         List<Course> courses = courseRepo.findByEnseignantId(enseignantId);
 
+        if (courses.isEmpty()) {
+            return null;
+        }
         for (Course course : courses) {
 
             Teacher teacher = teacherClient.getTeacherById(course.getEnseignantId()).getBody();
