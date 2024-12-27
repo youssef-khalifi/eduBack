@@ -37,22 +37,22 @@ public class UserDetailService implements UserDetailsService {
         Map<String, String> user_infos = new HashMap<>();
 
         if (userType.equals("Teacher")){
-            System.out.println("YES Prof");
-           // user_infos = restTemplate.getForObject("http://localhost:8888/ENSEIGNANT-SERVICE/Enseignants/email/"+email,HashMap.class);
-            user_infos = restTemplate.getForObject("http://localhost:8082/Teachers/email/"+email,HashMap.class);
+            System.out.println("YES teacher");
+            user_infos = restTemplate.getForObject("http://localhost:8888/TEACHER-SERVICE/Teachers/email/"+email,HashMap.class);
+           // user_infos = restTemplate.getForObject("http://localhost:8082/Teachers/email/"+email,HashMap.class);
 
         }
 
         if (userType.equals("Student")){
 
-           // user_infos = restTemplate.getForObject("http://localhost:8888/CHERCHEUR-SERVICE/Chercheurs/email/"+email,HashMap.class);
-            user_infos = restTemplate.getForObject("http://localhost:8083/Students/email/"+email,HashMap.class);
+            user_infos = restTemplate.getForObject("http://localhost:8888/STUDENT-SERVICE/Students/email/"+email,HashMap.class);
+            //user_infos = restTemplate.getForObject("http://localhost:8083/Students/email/"+email,HashMap.class);
         }
 
 
         if (user_infos.isEmpty()){
             new UsernameNotFoundException("User not found with username: " + email);
-            System.out.println(" auccun user");
+            System.out.println(" no student");
         }
 
         Collection<GrantedAuthority> authorities = new ArrayList<>();
