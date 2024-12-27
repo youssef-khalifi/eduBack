@@ -8,6 +8,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Entity@Data
 @AllArgsConstructor@NoArgsConstructor@Builder
 public class Student {
@@ -17,7 +19,9 @@ public class Student {
     private String fullName;
     private int age;
     private String gender;
-    @JsonIgnore
+    private String jobTitle;
+    private String university;
+    private Date createdAt;
     @Lob
     @Column(length = 10000)
     private byte[] image;

@@ -35,6 +35,7 @@ public class SecConfig {
                         .pathMatchers("/TEACHER-SERVICE/Teachers/email/{id}").permitAll()
                         .pathMatchers("/TEACHER-SERVICE/Teachers/**").hasAuthority("SCOPE_Teacher")
                         .pathMatchers("/STUDENT-SERVICE/Students/email/{id}").permitAll()
+                        .pathMatchers("/STUDENT-SERVICE/Students/save").permitAll()
                         .pathMatchers("/STUDENT-SERVICE/Students/**").hasAuthority("SCOPE_Student")
                         .anyExchange().authenticated()
                 )

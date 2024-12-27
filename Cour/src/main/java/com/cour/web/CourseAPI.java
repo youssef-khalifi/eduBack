@@ -51,7 +51,7 @@ public class CourseAPI {
 
 
 
-        Course savedCourse = courseService.updateCourse(id ,name, imageFile, description, courseLevel, courType );
+        Course savedCourse = courseService.updateCourse(id ,name, imageFile, courType, courseLevel, description );
 
         return ResponseEntity.ok(savedCourse);
 
