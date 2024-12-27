@@ -26,6 +26,7 @@ public class CourseService {
     private final VideoClient videoClient;
 
 
+
     public Course saveCourse(Course course, MultipartFile image ) throws IOException {
 
         course.setCreatedAt(new Date());
