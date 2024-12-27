@@ -1,7 +1,7 @@
 name: Edu-Connect CI CD Pipeline
 on:
   push:
-    branches: [ "video" ]
+    branches: [ "main" ]
     paths:
       - 'Config-service/**'
       - 'Discovery/**'

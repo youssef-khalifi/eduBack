@@ -27,6 +27,8 @@ public class TeacherService {
         return teacherRepo.save(teacher);
     }
 
+
+
     public Teacher getTeacherById(Long id){
         return teacherRepo.findById(id).get();
     }
