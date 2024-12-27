@@ -57,8 +57,8 @@ jobs:
              echo "Running SonarCloud scan for $dir"
              cd $dir
              mvn sonar:sonar \
-               -Dsonar.projectKey=mohamed-alaoui6_edu-connect-ci-cd \
-                -Dsonar.organization=mohamed-alaoui6 \
+               -Dsonar.projectKey=youssef-khalifi_eduBack \
+                -Dsonar.organization=youssef-khalifi \
                -Dsonar.host.url=https://sonarcloud.io \
                -Dsonar.sources=src/main/java \
                -Dsonar.tests=src/test/java \
