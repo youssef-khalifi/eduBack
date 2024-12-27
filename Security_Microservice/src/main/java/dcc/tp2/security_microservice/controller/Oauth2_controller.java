@@ -56,7 +56,7 @@ public class Oauth2_controller {
                 .issuer("MS_sec")
                 .subject(authenticate.getName())
                 .issuedAt(instant)
-                .expiresAt(instant.plus(2, ChronoUnit.MINUTES))
+                .expiresAt(instant.plus(2000, ChronoUnit.MINUTES))
                 .claim("name",authenticate.getName())
                 .claim("scope",scope)
                 .build();

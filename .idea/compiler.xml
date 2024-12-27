@@ -3,16 +3,6 @@
   <component name="CompilerConfiguration">
     <annotationProcessing>
       <profile default="true" name="Default" enabled="true" />
-      <profile name="Annotation profile for Cour" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath>
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
-        </processorPath>
-        <module name="Student" />
-        <module name="Cour" />
-      </profile>
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
@@ -30,25 +20,33 @@
         </processorPath>
         <module name="Teacher" />
       </profile>
-      <profile name="Annotation profile for video_testing" enabled="true">
+      <profile name="Annotation profile for Video" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath>
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
         </processorPath>
-        <module name="video_testing" />
+        <module name="Cour" />
+        <module name="Config-service" />
+        <module name="Student" />
+        <module name="Video" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="video_testing" target="17" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="Config-service" options="-parameters" />
       <module name="Cour" options="-parameters" />
       <module name="Discovery" options="-parameters" />
       <module name="Gateway-Service" options="-parameters" />
       <module name="Security_Microservice" options="-parameters" />
       <module name="Student" options="-parameters" />
       <module name="Teacher" options="-parameters" />
+      <module name="Video" options="-parameters" />
       <module name="video_testing" options="-parameters" />
     </option>
   </component>

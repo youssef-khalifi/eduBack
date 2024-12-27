@@ -31,6 +31,7 @@ public class SecConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeExchange(auth -> auth
                         .pathMatchers("/COURSE-SERVICE/Course/**").hasAnyAuthority("SCOPE_Teacher")
+                        .pathMatchers("/VIDEO-SERVICE/Video/**").hasAnyAuthority("SCOPE_Teacher")
                         .pathMatchers("/TEACHER-SERVICE/Teachers/email/{id}").permitAll()
                         .pathMatchers("/TEACHER-SERVICE/Teachers/**").hasAuthority("SCOPE_Teacher")
                         .pathMatchers("/CHERCHEUR-SERVICE/Chercheurs/email/{id}").permitAll()

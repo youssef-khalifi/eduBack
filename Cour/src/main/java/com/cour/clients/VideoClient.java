@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 @FeignClient(name = "VIDEO-SERVICE")
 public interface VideoClient {
 
-    @DeleteMapping("/api/course/{courseId}")
+    @DeleteMapping("/Video/course/{courseId}")
     public void deleteVideos(@PathVariable Long courseId);
 }
