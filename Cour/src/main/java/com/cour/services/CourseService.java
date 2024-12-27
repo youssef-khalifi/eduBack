@@ -1,6 +1,7 @@
 package com.cour.services;
 
 import com.cour.clients.TeacherClient;
+import com.cour.clients.VideoClient;
 import com.cour.entities.Course;
 import com.cour.model.Teacher;
 import com.cour.repositories.CourseRepo;
@@ -22,6 +23,7 @@ public class CourseService {
 
     private final CourseRepo courseRepo;
     private final TeacherClient teacherClient;
+    private final VideoClient videoClient;
 
 
     public Course saveCourse(Course course, MultipartFile image ) throws IOException {
@@ -56,6 +58,8 @@ public class CourseService {
 
     public void deleteCourse(Long id) throws IOException {
         if (courseRepo.existsById(id)) {
+
+            this.videoClient.deleteVideos(id);
             courseRepo.deleteById(id);
         } else {
             throw new IOException("Course with ID " + id + " not found.");
@@ -81,6 +85,9 @@ public class CourseService {
     public List<Course> getByEnseignantId(Long enseignantId) {
         List<Course> courses = courseRepo.findByEnseignantId(enseignantId);
 
+        if (courses.isEmpty()) {
+            return null;
+        }
         for (Course course : courses) {
 
             Teacher teacher = teacherClient.getTeacherById(course.getEnseignantId()).getBody();

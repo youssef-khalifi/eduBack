@@ -53,10 +53,10 @@ public class Oauth2_controller {
         String scope =  authenticate.getAuthorities().stream().map(auth -> auth.getAuthority()).collect(Collectors.joining(" "));
 
         JwtClaimsSet jwtClaimsSet_Access_token =  JwtClaimsSet.builder()
-                .issuer("MS_sec")
+                .issuer("Youssef")
                 .subject(authenticate.getName())
                 .issuedAt(instant)
-                .expiresAt(instant.plus(2, ChronoUnit.MINUTES))
+                .expiresAt(instant.plus(2000, ChronoUnit.MINUTES))
                 .claim("name",authenticate.getName())
                 .claim("scope",scope)
                 .build();
@@ -66,7 +66,7 @@ public class Oauth2_controller {
 
 
         JwtClaimsSet jwtClaimsSet_refresh_token =  JwtClaimsSet.builder()
-                .issuer("MS_sec")
+                .issuer("Youssef")
                 .subject(authenticate.getName())
                 .issuedAt(instant)
                 .expiresAt(instant.plus(200, ChronoUnit.MINUTES))

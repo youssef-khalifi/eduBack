@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -33,7 +34,7 @@ public class Teacher {
     private String phoneNumber;
     private String role;
     @Transient
-    List<Course> courses;
+    List<Course> courses = new ArrayList<>();
 
 
 

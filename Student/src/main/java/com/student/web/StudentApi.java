@@ -14,15 +14,14 @@ import java.util.Map;
 @RequestMapping("/Students")
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin
 public class StudentApi {
 
     private final StudentService studentService;
 
-    @PostMapping
+    @PostMapping("/save")
     public ResponseEntity<Student> saveStudent
-            (@RequestPart MultipartFile image , @RequestParam String fullName, @RequestParam String email, @RequestParam int age,
-             @RequestParam String phone, @RequestParam String password, @RequestParam String gender) throws IOException {
+            (@RequestParam String fullName, @RequestParam String email, @RequestParam int age,
+             @RequestParam String password, @RequestParam String gender) throws IOException {
 
         Student teacher = Student.builder()
                 .fullName(fullName)
@@ -30,11 +29,10 @@ public class StudentApi {
                 .age(age)
                 .gender(gender)
                 .password(password)
-                .phoneNumber(phone)
                 .build();
-        Student savedTeacher = studentService.saveStudent(teacher , image);
+        Student saved = studentService.saveStudent(teacher);
 
-        return ResponseEntity.ok(savedTeacher);
+        return ResponseEntity.ok(saved);
     }
 
 
@@ -61,5 +59,28 @@ public class StudentApi {
             return ResponseEntity.ok(infos_user);
         }
         return ResponseEntity.notFound().build();
+    }
+
+
+    @GetMapping("/profile/{email}")
+    public ResponseEntity<Student> getTeacherByEmail(@PathVariable String email){
+        return ResponseEntity.ok(studentService.findByEmail(email));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Student> updateTeacher(
+            @PathVariable Long id,
+            @RequestParam String fullName,
+            @RequestParam String jobTitle,
+            @RequestParam String university,
+            @RequestParam String phoneNumber,
+            @RequestParam String password,
+            @RequestParam("image") MultipartFile image) throws IOException {
+
+        Student student = studentService.update
+                (id,fullName,image,jobTitle,university,phoneNumber,password);
+
+        return ResponseEntity.ok(student);
+
     }
 }

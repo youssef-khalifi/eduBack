@@ -47,7 +47,7 @@ public class TeacherService {
         Teacher teacher = teacherRepo.findByEmail(email);
         List<Course> courses = courseClient.TeacherById(teacher.getId());
 
-        teacher.setCourses(courses);
+            teacher.setCourses(courses);
 
         return teacher;
     }

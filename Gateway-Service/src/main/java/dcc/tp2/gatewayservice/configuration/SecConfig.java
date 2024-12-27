@@ -30,11 +30,13 @@ public class SecConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeExchange(auth -> auth
-                        .pathMatchers("/COURSE-SERVICE/Course/**").hasAnyAuthority("SCOPE_Teacher")
+                        .pathMatchers("/COURSE-SERVICE/Course/**").hasAnyAuthority("SCOPE_Teacher", "SCOPE_Student")
+                        .pathMatchers("/VIDEO-SERVICE/Video/**").hasAnyAuthority("SCOPE_Teacher", "SCOPE_Student")
                         .pathMatchers("/TEACHER-SERVICE/Teachers/email/{id}").permitAll()
                         .pathMatchers("/TEACHER-SERVICE/Teachers/**").hasAuthority("SCOPE_Teacher")
-                        .pathMatchers("/CHERCHEUR-SERVICE/Chercheurs/email/{id}").permitAll()
-                        .pathMatchers("/CHERCHEUR-SERVICE/Chercheurs/**").hasAuthority("SCOPE_Chercheur")
+                        .pathMatchers("/STUDENT-SERVICE/Students/email/{id}").permitAll()
+                        .pathMatchers("/STUDENT-SERVICE/Students/save").permitAll()
+                        .pathMatchers("/STUDENT-SERVICE/Students/**").hasAuthority("SCOPE_Student")
                         .anyExchange().authenticated()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt())
